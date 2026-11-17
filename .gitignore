@@ -1,0 +1,49 @@
+# dependencies
+node_modules/
+.pnpm-store/
+
+# local tooling installed into the workspace (pnpm bootstrap)
+.tools/
+
+# build output
+dist/
+dist-ssr/
+*.local
+apps/web/dev-dist/
+apps/desktop/release/
+apps/android/app/build/
+apps/android/.gradle/
+apps/android/build/
+apps/android/local.properties
+
+# tests
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+
+# env & secrets
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+*.pfx
+*.p12
+release.jks
+key.properties
+
+# editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# supabase local state
+supabase/.branches/
+supabase/.temp/
