@@ -20,8 +20,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
@@ -50,15 +48,14 @@ jobs:
   android:
     name: Build signed Android artifacts
     needs: web
-    if: hashFiles('apps/android/gradlew') != ''
+    # Set the repository variable ENABLE_ANDROID=true once apps/android is scaffolded.
+    if: needs.web.result == 'success' && vars.ENABLE_ANDROID == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:
@@ -131,15 +128,14 @@ jobs:
   windows:
     name: Build Windows installer
     needs: web
-    if: hashFiles('apps/desktop/package.json') != ''
+    # Set the repository variable ENABLE_WINDOWS=true once apps/desktop is scaffolded.
+    if: needs.web.result == 'success' && vars.ENABLE_WINDOWS == 'true'
     runs-on: windows-latest
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 9
 
       - uses: actions/setup-node@v4
         with:

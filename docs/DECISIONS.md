@@ -7,8 +7,10 @@ Newest first. Each entry: decision, why, consequence.
 `apps/android` and `apps/desktop` are reserved but not scaffolded in this pass. The request
 was to complete the **web app**; the Android/iOS project needs an Android SDK and the Electron
 project needs a Windows host to produce and verify installers. `release.yml` already contains
-both jobs, guarded by `hashFiles(...)`, so they run automatically once those projects land and
-never fail the pipeline while absent. `docs/SIGNING.md` documents the required secrets.
+both jobs, gated on the repository variables `ENABLE_ANDROID` / `ENABLE_WINDOWS`, so a web-only
+release stays green until those projects land. (Job-level `if` cannot use `hashFiles`; GitHub
+rejects such a workflow at parse time. Repository variables are evaluated server-side, which is
+why they are used instead.) `docs/SIGNING.md` documents the required secrets.
 
 ## D-013 — Local-first data layer with Supabase as the shared backend
 

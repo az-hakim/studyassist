@@ -34,6 +34,16 @@ git push origin v0.1.0
 3. (when present) builds and verifies the Windows NSIS installer,
 4. publishes a GitHub Release with every artifact attached.
 
+The Android and Windows jobs are gated on repository **variables** so a web-only
+release stays green before those projects are scaffolded:
+
+```bash
+gh variable set ENABLE_ANDROID --body true
+gh variable set ENABLE_WINDOWS --body true
+```
+
+Set them only after `apps/android` (with `gradlew`) and `apps/desktop` exist.
+
 Re-running a failed release is safe: re-push the tag (`git push --force origin v0.1.0` after
 deleting it) or use **Re-run all jobs** in the Actions UI. No step prints secrets.
 
