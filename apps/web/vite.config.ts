@@ -11,10 +11,10 @@ export default defineConfig({
       registerType: "autoUpdate",
       includeAssets: ["favicon.svg"],
       manifest: {
-        name: "StudyBuddy — AI study assistant",
-        short_name: "StudyBuddy",
+        name: "StudyAssistant — Free AI Study Assistant",
+        short_name: "StudyAssistant",
         description:
-          "Chat with a tutor, generate quizzes and flashcards, take notes and revise with spaced repetition.",
+          "Chat with Aeva, read your PDFs, and turn any answer into flashcards, quizzes, notes and a spaced-repetition revision plan.",
         theme_color: "#6366f1",
         background_color: "#0b0b12",
         display: "standalone",

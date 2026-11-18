@@ -31,7 +31,7 @@ export default function SharePage() {
         </p>
         <Link to="/">
           <Button>
-            Go to StudyBuddy
+            Go to StudyAssistant
             <ArrowRight className="h-4 w-4" />
           </Button>
         </Link>
@@ -47,7 +47,7 @@ export default function SharePage() {
             <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600">
               <Sparkles className="h-4 w-4 text-white" />
             </span>
-            <span className="text-sm font-semibold">StudyBuddy</span>
+            <span className="text-sm font-semibold">StudyAssistant</span>
           </Link>
           <Link to="/login">
             <Button size="sm" variant="secondary">
@@ -93,7 +93,7 @@ export default function SharePage() {
 
         <div className="mt-6 rounded-2xl border border-border/60 bg-muted/30 p-4 text-center">
           <p className="text-[12.5px] text-muted-foreground">
-            Made with StudyBuddy — a tutor, quizzes and spaced repetition in one workspace.
+            Made with StudyAssistant — a tutor, quizzes and spaced repetition in one workspace.
           </p>
           <Link to="/login" className="mt-2 inline-block">
             <Button size="sm" variant="secondary">

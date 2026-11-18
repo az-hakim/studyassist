@@ -95,7 +95,7 @@ export default function LoginPage() {
           <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600">
             <Sparkles className="h-4 w-4 text-white" />
           </span>
-          <span className="text-[15px] font-semibold tracking-tight">StudyBuddy</span>
+          <span className="text-[15px] font-semibold tracking-tight">StudyAssistant</span>
         </Link>
 
         <div className="relative max-w-md">
@@ -121,7 +121,7 @@ export default function LoginPage() {
         </div>
 
         <p className="relative text-xs text-muted-foreground">
-          Original product · no copied assets or copy.
+          Free for students · works with your own notes.
         </p>
       </div>
 
@@ -229,7 +229,7 @@ export default function LoginPage() {
           ) : null}
 
           <p className="mt-8 text-center text-[11px] leading-relaxed text-muted-foreground">
-            By continuing you agree to use StudyBuddy for your own study. Upload only material you
+            By continuing you agree to use StudyAssistant for your own study. Upload only material you
             have the right to use.
           </p>
         </div>

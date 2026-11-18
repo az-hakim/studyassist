@@ -63,7 +63,7 @@ is expected and documented in the release notes.
 ### Verifying locally
 
 ```powershell
-Get-AuthenticodeSignature .\StudyBuddy-Setup-0.1.0.exe
+Get-AuthenticodeSignature .\StudyAssistant-Setup-0.1.0.exe
 ```
 
 ## What CI verifies

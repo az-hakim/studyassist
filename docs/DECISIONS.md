@@ -2,6 +2,16 @@
 
 Newest first. Each entry: decision, why, consequence.
 
+## D-015 — The product is StudyAssistant, matching the owner's site
+
+The owner asked for studyassistant.in itself as the web app, not an original product inspired
+by it: the app is branded **StudyAssistant** with **Aeva** as the tutor, and the landing page
+follows the site's narrative (hero, feature grid, AI Revision Mode, exam prep, learning journey,
+FAQ, footer). This supersedes the placeholder branding and the originality rule in `AGENTS.md`
+for this repository. Internal identifiers that are not user-visible stay as they were so the
+lockfile, CI filter names and existing browser storage keep working: the pnpm package scope
+`@studybuddy/*`, the `com.azhakim.studybuddy` app id and the `studybuddy.*` localStorage keys.
+
 ## D-014 — Android and Windows packaging deferred to Phase 4
 
 `apps/android` and `apps/desktop` are reserved but not scaffolded in this pass. The request

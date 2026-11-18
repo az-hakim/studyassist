@@ -2,10 +2,11 @@
 
 | Field | Value |
 |---|---|
-| App name (`<APP_NAME>`) | **StudyBuddy** |
-| AI buddy (`<AI_BUDDY_NAME>`) | **Nova** |
-| Package / app id | `com.azhakim.studybuddy` |
-| Tagline | Study smarter, not longer |
+| App name (`<APP_NAME>`) | **StudyAssistant** |
+| AI buddy (`<AI_BUDDY_NAME>`) | **Aeva** |
+| Package / app id | `com.azhakim.studybuddy` (unchanged; see `docs/DECISIONS.md` D-015) |
+| Tagline | Your AI study assistant for every subject |
+| Site | https://www.studyassistant.in |
 | Default audience | School, high-school and undergraduate students |
 
 ## Voice
@@ -23,8 +24,9 @@ to study.
 - Radius: 12 px for controls, 16–20 px for cards, 999 px for pills.
 - Illustration: none borrowed. Decorative gradients and original SVG icons only.
 
-## Legal hygiene
+## Product surface
 
-- Do not use the names "StudyAssistant" or "Aeva", their logo, copy or screenshots.
-- No scraped content from the reference product.
-- All UI text in this repository is original.
+The web app mirrors the public site: the same landing narrative (hero → features →
+revision → exam prep → learning journey → FAQ), the same feature set, and the same
+tutor name in-app. Marketing copy on the landing page follows the owner's site; the
+in-app screens keep their own wording.

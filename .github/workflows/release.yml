@@ -38,7 +38,7 @@ jobs:
         run: |
           mkdir -p release-out
           cd apps/web/dist
-          zip -qr "$GITHUB_WORKSPACE/release-out/StudyBuddy-${GITHUB_REF_NAME}-web.zip" .
+          zip -qr "$GITHUB_WORKSPACE/release-out/StudyAssistant-${GITHUB_REF_NAME}-web.zip" .
 
       - uses: actions/upload-artifact@v4
         with:
@@ -79,7 +79,7 @@ jobs:
       - name: Unpack web build
         run: |
           mkdir -p apps/web/dist
-          unzip -q "release-out/StudyBuddy-${GITHUB_REF_NAME}-web.zip" -d apps/web/dist
+          unzip -q "release-out/StudyAssistant-${GITHUB_REF_NAME}-web.zip" -d apps/web/dist
 
       - name: Capacitor sync
         run: pnpm exec cap sync android
@@ -117,8 +117,8 @@ jobs:
       - name: Rename artifacts
         run: |
           mkdir -p release-out
-          cp apps/android/app/build/outputs/apk/release/*.apk "release-out/StudyBuddy-${GITHUB_REF_NAME}.apk"
-          cp apps/android/app/build/outputs/bundle/release/*.aab "release-out/StudyBuddy-${GITHUB_REF_NAME}.aab"
+          cp apps/android/app/build/outputs/apk/release/*.apk "release-out/StudyAssistant-${GITHUB_REF_NAME}.apk"
+          cp apps/android/app/build/outputs/bundle/release/*.aab "release-out/StudyAssistant-${GITHUB_REF_NAME}.aab"
 
       - uses: actions/upload-artifact@v4
         with:
@@ -153,7 +153,7 @@ jobs:
         shell: bash
         run: |
           mkdir -p apps/web/dist
-          unzip -q "release-out/StudyBuddy-${GITHUB_REF_NAME}-web.zip" -d apps/web/dist
+          unzip -q "release-out/StudyAssistant-${GITHUB_REF_NAME}-web.zip" -d apps/web/dist
 
       - name: Build installer
         shell: bash

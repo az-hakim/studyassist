@@ -1,4 +1,4 @@
--- StudyBuddy initial schema.
+-- StudyAssistant initial schema.
 -- Every table carries user_id and is protected by RLS (user_id = auth.uid()).
 -- Public sharing is only possible through SECURITY DEFINER RPCs keyed by token.
 

@@ -41,7 +41,7 @@ export function printDocument(title: string, html: string): boolean {
 </head>
 <body>
   <h1>${escapeHtml(title)}</h1>
-  <p class="meta">Exported from StudyBuddy on ${escapeHtml(new Date().toLocaleString())}</p>
+  <p class="meta">Exported from StudyAssistant on ${escapeHtml(new Date().toLocaleString())}</p>
   ${html}
 </body>
 </html>`);

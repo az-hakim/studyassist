@@ -88,7 +88,7 @@ export default function TopicPracticePage() {
         if (topic.status === "not_started") setTopicStatus(plan.id, day.id, topic.id, "in_progress");
       }
       toast(
-        mode === "demo" ? "Offline lesson ready." : "Lesson written by Nova.",
+        mode === "demo" ? "Offline lesson ready." : "Lesson written by Aeva.",
         "success",
       );
     },
@@ -107,7 +107,7 @@ export default function TopicPracticePage() {
     },
     onSuccess: ({ quiz, mode }) => {
       setPracticeQuiz(quiz);
-      toast(mode === "demo" ? "Practice quiz ready." : "Practice quiz written by Nova.", "success");
+      toast(mode === "demo" ? "Practice quiz ready." : "Practice quiz written by Aeva.", "success");
     },
     onError: () => toast("Could not build practice questions.", "error"),
   });
@@ -209,7 +209,7 @@ export default function TopicPracticePage() {
     } catch {
       setDoubtMessages((current) => [
         ...current.slice(0, -1),
-        { role: "assistant", content: "Nova could not answer that just now. Try again." },
+        { role: "assistant", content: "Aeva could not answer that just now. Try again." },
       ]);
     } finally {
       setDoubtBusy(false);
@@ -296,7 +296,7 @@ export default function TopicPracticePage() {
               </span>
               <p className="text-sm font-semibold">No lesson yet</p>
               <p className="max-w-sm text-xs leading-relaxed text-muted-foreground">
-                Nova writes: why it matters, core ideas, worked examples, things to remember,
+                Aeva writes: why it matters, core ideas, worked examples, things to remember,
                 common mistakes and a self-check.
               </p>
               <Button onClick={() => lessonMutation.mutate()} loading={lessonMutation.isPending}>
@@ -379,7 +379,7 @@ export default function TopicPracticePage() {
                 <MessageCircle className="h-6 w-6 text-primary" />
                 <p className="text-sm font-semibold">Scoped doubt box</p>
                 <p className="max-w-sm text-xs text-muted-foreground">
-                  Nova answers only within {topic.name}, so you do not drift into another topic.
+                  Aeva answers only within {topic.name}, so you do not drift into another topic.
                 </p>
               </div>
             ) : (

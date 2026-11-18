@@ -101,7 +101,7 @@ export default function NotesPage() {
     const id = addNote({
       spaceId: newSpace || null,
       title: newTitle.trim() || "Untitled note",
-      markdown: `# ${newTitle.trim() || "Untitled note"}\n\nStart writing, or paste an answer from Nova.\n`,
+      markdown: `# ${newTitle.trim() || "Untitled note"}\n\nStart writing, or paste an answer from Aeva.\n`,
     });
     setCreateOpen(false);
     setNewTitle("");
@@ -171,7 +171,7 @@ export default function NotesPage() {
             <EmptyState
               icon={<NotebookPen className="h-5 w-5" />}
               title="No notes yet"
-              description="Create one, or save a Nova answer as a note."
+              description="Create one, or save a Aeva answer as a note."
             />
           ) : (
             [...notes]

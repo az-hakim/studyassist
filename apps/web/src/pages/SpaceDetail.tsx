@@ -137,7 +137,7 @@ export default function SpaceDetailPage() {
               onClick={() => navigate(`/app/chat?space=${space.id}`)}
             >
               <Sparkles className="h-3.5 w-3.5" />
-              Ask Nova
+              Ask Aeva
             </Button>
           </div>
         </div>
@@ -208,7 +208,7 @@ export default function SpaceDetailPage() {
                 {weak.length === 0 ? (
                   <EmptyState
                     title="No topics tracked yet"
-                    description="Take a quiz or rate a card and Nova will start tracking what needs revision."
+                    description="Take a quiz or rate a card and Aeva will start tracking what needs revision."
                     action={
                       <Link to={`/app/quiz?space=${space.id}`}>
                         <Button size="sm" variant="secondary">
@@ -316,7 +316,7 @@ export default function SpaceDetailPage() {
               <EmptyState
                 icon={<MessageSquare className="h-5 w-5" />}
                 title="No conversations yet"
-                description="Ask Nova a question to start the first one."
+                description="Ask Aeva a question to start the first one."
                 action={
                   <Button size="sm" onClick={() => navigate(`/app/chat?space=${space.id}`)}>
                     Start chatting
@@ -357,7 +357,7 @@ export default function SpaceDetailPage() {
                 className="sm:col-span-2"
                 icon={<NotebookPen className="h-5 w-5" />}
                 title="No notes in this space"
-                description="Save a Nova answer as a note, or write one from scratch."
+                description="Save a Aeva answer as a note, or write one from scratch."
                 action={
                   <Button size="sm" onClick={() => navigate("/app/notes")}>
                     Open notes

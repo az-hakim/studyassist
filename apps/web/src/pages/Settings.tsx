@@ -75,7 +75,7 @@ export default function SettingsPage() {
 
   const saveProfile = () => {
     updateProfile({ ...profile, name: name.trim() || user?.name || "Learner" });
-    toast("Profile updated. Nova will use it in every prompt.", "success");
+    toast("Profile updated. Aeva will use it in every prompt.", "success");
   };
 
   const exportData = () => {
@@ -108,7 +108,7 @@ export default function SettingsPage() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Settings</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Your learning profile shapes every answer Nova writes.
+          Your learning profile shapes every answer Aeva writes.
         </p>
       </div>
 
@@ -229,7 +229,7 @@ export default function SettingsPage() {
       <Card className="p-5">
         <SectionHeading
           title="Install as an app"
-          description="StudyBuddy is a PWA: installable, offline shell, home-screen icon."
+          description="StudyAssistant is a PWA: installable, offline shell, home-screen icon."
           action={<MonitorSmartphone className="h-4 w-4 text-muted-foreground" />}
         />
         <div className="mt-3">
@@ -241,7 +241,7 @@ export default function SettingsPage() {
                 await installPrompt.prompt();
                 const choice = await installPrompt.userChoice;
                 toast(
-                  choice.outcome === "accepted" ? "Installing StudyBuddy…" : "Install dismissed.",
+                  choice.outcome === "accepted" ? "Installing StudyAssistant…" : "Install dismissed.",
                   choice.outcome === "accepted" ? "success" : "info",
                 );
                 setInstallPrompt(null);

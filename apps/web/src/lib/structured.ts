@@ -68,7 +68,7 @@ async function requestStructured<T>(
     lastError = parsed.error;
   }
 
-  throw new AiUnavailableError(`Nova could not produce a valid ${name} response. ${lastError}`);
+  throw new AiUnavailableError(`Aeva could not produce a valid ${name} response. ${lastError}`);
 }
 
 export async function requestQuiz(input: {

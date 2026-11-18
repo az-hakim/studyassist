@@ -44,7 +44,7 @@ export async function generateValidated<T>(input: {
     }
   }
 
-  throw new HttpError(502, "Nova could not produce a valid result. Please try again.");
+  throw new HttpError(502, "Aeva could not produce a valid result. Please try again.");
 }
 
 export async function readJson(req: Request): Promise<unknown> {

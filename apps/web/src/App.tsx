@@ -11,19 +11,23 @@ import { AppShell } from "@/components/app-shell";
 import { Toaster } from "@/components/toaster";
 import { Button } from "@/components/ui";
 import { useAuthStore } from "@/store/auth";
+import AboutPage from "@/pages/About";
 import ChatPage from "@/pages/Chat";
 import DashboardPage from "@/pages/Dashboard";
+import FeaturesPage from "@/pages/Features";
 import FlashcardsPage from "@/pages/Flashcards";
 import LandingPage from "@/pages/Landing";
 import LoginPage from "@/pages/Login";
 import NotesPage from "@/pages/Notes";
 import PlannerPage from "@/pages/Planner";
+import PrivacyPage from "@/pages/Privacy";
 import QuizPage from "@/pages/Quiz";
 import RevisionPage from "@/pages/Revision";
 import SettingsPage from "@/pages/Settings";
 import SharePage from "@/pages/Share";
 import SpaceDetailPage from "@/pages/SpaceDetail";
 import SpacesPage from "@/pages/Spaces";
+import TermsPage from "@/pages/Terms";
 import TopicPracticePage from "@/pages/TopicPractice";
 
 function RequireAuth({ children }: { children: ReactNode }) {
@@ -65,6 +69,10 @@ export default function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<LandingPage />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/share/:token" element={<SharePage />} />
         <Route

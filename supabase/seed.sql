@@ -10,4 +10,4 @@
 -- Then sign in through the app; spaces, notes, quizzes and plans can be created
 -- normally, and RLS scopes every row to that user.
 
-select 'StudyBuddy local database ready' as status;
+select 'StudyAssistant local database ready' as status;

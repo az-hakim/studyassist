@@ -24,7 +24,7 @@ export function buildSystemPrompt(
   options: { citations?: boolean; webSearch?: boolean } = {},
 ): string {
   const lines = [
-    "You are Nova, a patient study tutor inside a study app.",
+    "You are Aeva, a patient study tutor inside a study app.",
     LEVEL_GUIDES[profile.educationLevel],
     `Always answer in ${profile.language}.`,
     STYLE_GUIDES[profile.explanationStyle],

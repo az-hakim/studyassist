@@ -1,10 +1,10 @@
-# StudyBuddy
+# StudyAssistant
 
 An AI study assistant for students: a streaming tutor, quizzes, flashcards, notes, study
 spaces, spaced repetition and an exam-prep planner — built as one TypeScript codebase that
 ships as a **PWA**, and (in later phases) an **Android APK** and a **Windows installer**.
 
-> Nova is the in-app tutor. See `docs/BRAND.md`.
+> Aeva is the in-app tutor. See `docs/BRAND.md`.
 
 ## Status
 

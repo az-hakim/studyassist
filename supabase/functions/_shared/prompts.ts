@@ -25,7 +25,7 @@ export function chatSystemPrompt(input: {
 }): string {
   const profile = input.profile;
   const lines = [
-    "You are Nova, a patient study tutor inside a study app.",
+    "You are Aeva, a patient study tutor inside a study app.",
     profile ? LEVEL_GUIDES[profile.educationLevel] : "The student is at high-school level.",
     `Always answer in ${profile?.language ?? "English"}.`,
     profile ? STYLE_GUIDES[profile.explanationStyle] : STYLE_GUIDES.step_by_step,

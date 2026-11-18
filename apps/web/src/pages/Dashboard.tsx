@@ -107,7 +107,7 @@ export default function DashboardPage() {
           <Link to="/app/chat">
             <Button variant="gradient">
               <MessageSquare className="h-4 w-4" />
-              Ask Nova
+              Ask Aeva
             </Button>
           </Link>
           <Button variant="outline" onClick={() => navigate("/app/planner")}>

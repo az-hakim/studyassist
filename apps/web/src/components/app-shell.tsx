@@ -51,14 +51,14 @@ const MOBILE_NAV = [
 
 function Logo({ compact = false }: { compact?: boolean }) {
   return (
-    <Link to="/app" className="flex items-center gap-2.5" aria-label="StudyBuddy dashboard">
+    <Link to="/app" className="flex items-center gap-2.5" aria-label="StudyAssistant dashboard">
       <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lift">
         <Sparkles className="h-4.5 w-4.5 text-white" strokeWidth={2} />
       </span>
       {!compact ? (
         <span className="leading-tight">
-          <span className="block text-[15px] font-semibold tracking-tight">StudyBuddy</span>
-          <span className="block text-[11px] text-muted-foreground">with Nova</span>
+          <span className="block text-[15px] font-semibold tracking-tight">StudyAssistant</span>
+          <span className="block text-[11px] text-muted-foreground">with Aeva</span>
         </span>
       ) : null}
     </Link>

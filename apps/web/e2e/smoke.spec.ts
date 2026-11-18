@@ -2,9 +2,9 @@ import { expect, test } from "@playwright/test";
 
 test("landing page renders the product pitch", async ({ page }) => {
   await page.goto("/");
-  await expect(page).toHaveTitle(/StudyBuddy/);
-  await expect(page.getByRole("heading", { level: 1 })).toContainText(/study smarter/i);
-  await expect(page.getByRole("link", { name: /start studying/i }).first()).toBeVisible();
+  await expect(page).toHaveTitle(/StudyAssistant/);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(/ai study assistant/i);
+  await expect(page.getByRole("link", { name: /start learning free/i }).first()).toBeVisible();
 });
 
 test("sign-in screen offers Google, email and guest", async ({ page }) => {

@@ -125,7 +125,7 @@ function MessageBubble({
       </span>
       <div className="min-w-0 flex-1">
         <div className="mb-1.5 flex flex-wrap items-center gap-2">
-          <span className="text-[13px] font-semibold">Nova</span>
+          <span className="text-[13px] font-semibold">Aeva</span>
           {message.mode === "demo" ? <Badge variant="warning">Demo tutor</Badge> : null}
           {message.mode === "live" ? <Badge variant="primary">Live</Badge> : null}
         </div>
@@ -343,7 +343,7 @@ export default function ChatPage() {
           });
         }
       } else {
-        toast(error instanceof Error ? error.message : "Nova could not answer.", "error");
+        toast(error instanceof Error ? error.message : "Aeva could not answer.", "error");
       }
     } finally {
       setStreamText(null);
@@ -415,7 +415,7 @@ export default function ChatPage() {
   const saveNote = (message: Message) => {
     const title = truncate(
       message.content.replace(/[#*`>]/g, "").split("\n").find((line) => line.trim()) ??
-        "Nova answer",
+        "Aeva answer",
       70,
     );
     addNote({
@@ -612,7 +612,7 @@ export default function ChatPage() {
                   What are we studying today?
                 </h2>
                 <p className="mt-1 max-w-md text-[13px] text-muted-foreground">
-                  Ask a question, paste a problem, or attach your notes and ask Nova to explain
+                  Ask a question, paste a problem, or attach your notes and ask Aeva to explain
                   them with page citations.
                 </p>
                 <div className="mt-5 grid w-full max-w-lg gap-2 sm:grid-cols-2">
@@ -650,7 +650,7 @@ export default function ChatPage() {
                 </span>
                 <div className="min-w-0 flex-1">
                   <div className="mb-1.5 flex items-center gap-2">
-                    <span className="text-[13px] font-semibold">Nova</span>
+                    <span className="text-[13px] font-semibold">Aeva</span>
                     <span className="flex items-center gap-1 text-[10.5px] text-muted-foreground">
                       <Spinner className="h-3 w-3" /> thinking
                     </span>
@@ -694,10 +694,10 @@ export default function ChatPage() {
                 value={draft}
                 onChange={(event) => setDraft(event.target.value)}
                 onKeyDown={onKeyDown}
-                placeholder="Ask Nova anything — Enter to send, Shift+Enter for a new line"
+                placeholder="Ask Aeva anything — Enter to send, Shift+Enter for a new line"
                 rows={1}
                 className="max-h-40 min-h-[44px] resize-none border-0 bg-transparent px-2 py-2 focus:ring-0"
-                aria-label="Message Nova"
+                aria-label="Message Aeva"
               />
               <div className="flex items-center gap-1 px-1 pb-0.5">
                 <Button
@@ -733,7 +733,7 @@ export default function ChatPage() {
               </div>
             </div>
             <p className="mt-1.5 px-1 text-[10.5px] text-muted-foreground">
-              Nova can be wrong. Check important facts and cited pages.
+              Aeva can be wrong. Check important facts and cited pages.
             </p>
           </form>
         </Card>
