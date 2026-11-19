@@ -68,7 +68,10 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - uses: android-actions/setup-android@v3
+      - uses: android-actions/setup-android@v4
+        with:
+          # Google no longer serves the legacy `tools` package (v3 installed it and failed).
+          packages: platform-tools platforms;android-34 build-tools;34.0.0
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Generate Android project
