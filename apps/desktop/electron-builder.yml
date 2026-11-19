@@ -1,0 +1,18 @@
+appId: com.azhakim.studybuddy
+productName: StudyAssistant
+directories:
+  output: release
+files:
+  - dist/**
+  - package.json
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  artifactName: "${productName}-Setup-${version}.${ext}"
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true

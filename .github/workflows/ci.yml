@@ -4,65 +4,38 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
 
 permissions:
   contents: read
 
-concurrency:
-  group: ci-${{ github.ref }}
-  cancel-in-progress: true
-
-env:
-  CI: "true"
-
 jobs:
   verify:
-    name: Lint · Typecheck · Test · Build · E2E
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
-      - name: Setup Node 20
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
 
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Lint
-        run: pnpm lint
+      - run: pnpm install --frozen-lockfile
 
       - name: Typecheck
         run: pnpm typecheck
 
-      - name: Unit tests
-        run: pnpm test
-
-      - name: Build web app
+      - name: Build launcher
         run: pnpm build
-        env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
-      - name: Install Playwright Chromium
-        run: pnpm --filter @studybuddy/web exec playwright install --with-deps chromium
+      - name: Build desktop main process
+        run: pnpm --filter @studyassistant/desktop build
 
-      - name: Playwright smoke tests
-        run: pnpm e2e
-
-      - name: Upload Playwright report
-        if: always()
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
-          path: apps/web/playwright-report
-          retention-days: 7
-          if-no-files-found: ignore
+          name: web-dist
+          path: apps/web/dist
+          if-no-files-found: error

@@ -1,22 +1,135 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
-    />
-    <meta name="theme-color" content="#6366f1" />
-    <meta
-      name="description"
-      content="StudyAssistant is a free AI study assistant for students: chat with Aeva, read your PDFs, and turn any answer into flashcards, quizzes, notes and a spaced-repetition revision plan."
-    />
-    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
-    <link rel="apple-touch-icon" href="./icon.svg" />
-    <title>StudyAssistant — Free AI Study Assistant & Study Buddy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0b12" />
+    <meta name="description" content="StudyAssistant — the free AI study assistant for students." />
+    <title>StudyAssistant</title>
+    <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        font-family:
+          Inter,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: radial-gradient(120% 120% at 50% 0%, #1b1b2e 0%, #0b0b12 60%);
+        color: #f7f7fb;
+        text-align: center;
+      }
+      .card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        max-width: 360px;
+      }
+      .logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        display: grid;
+        place-items: center;
+        box-shadow: 0 12px 30px rgb(99 102 241 / 35%);
+      }
+      h1 {
+        margin: 0;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      p {
+        margin: 0;
+        font-size: 14px;
+        line-height: 1.55;
+        color: #a8a8bd;
+      }
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border-radius: 999px;
+        border: 2px solid rgb(255 255 255 / 18%);
+        border-top-color: #a5b4fc;
+        animation: spin 0.8s linear infinite;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .spinner {
+          animation-duration: 3s;
+        }
+      }
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        margin-top: 6px;
+      }
+      a.button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 44px;
+        padding: 0 18px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        color: #fff;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+      }
+      a.ghost {
+        background: none;
+        color: #a8a8bd;
+        font-weight: 500;
+      }
+      .hint {
+        font-size: 12px;
+        color: #6f6f86;
+        word-break: break-all;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <main class="card">
+      <div class="logo" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m12 3 1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3Z" />
+          <path d="M18 15.5 18.8 18l2.2.8-2.2.8L18 22l-.8-2.4L15 18.8l2.2-.8.8-2.5Z" />
+        </svg>
+      </div>
+      <h1>StudyAssistant</h1>
+      <p>Your AI study assistant for every subject. Opening the app…</p>
+      <div class="spinner" role="status" aria-label="Opening StudyAssistant"></div>
+      <div class="actions">
+        <a id="site-link" class="button" href="https://www.studyassistant.in">
+          Open StudyAssistant
+        </a>
+        <a class="ghost button" href="https://www.studyassistant.in/about">About StudyAssistant</a>
+      </div>
+      <p class="hint" id="site-url"></p>
+      <noscript>
+        <p>JavaScript is off. <a href="https://www.studyassistant.in">Open StudyAssistant</a>.</p>
+      </noscript>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

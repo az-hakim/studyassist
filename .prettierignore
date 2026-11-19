@@ -2,8 +2,5 @@ node_modules
 dist
 coverage
 pnpm-lock.yaml
-apps/android
-supabase
 .tools
-playwright-report
-test-results
+apps/desktop/release

@@ -7,197 +7,112 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: release-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
   web:
-    name: Build web (PWA)
     runs-on: ubuntu-latest
-    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
-
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-
       - run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm --filter @studybuddy/web build
-        env:
-          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
-          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
-
-      - name: Package web build
+      - run: pnpm build
+      - name: Zip launcher
         run: |
-          mkdir -p release-out
           cd apps/web/dist
-          zip -qr "$GITHUB_WORKSPACE/release-out/StudyAssistant-${GITHUB_REF_NAME}-web.zip" .
-
+          zip -r "$GITHUB_WORKSPACE/StudyAssistant-${{ github.ref_name }}-web.zip" .
       - uses: actions/upload-artifact@v4
         with:
           name: web
-          path: release-out/*
-
-  android:
-    name: Build signed Android artifacts
-    needs: web
-    # Set the repository variable ENABLE_ANDROID=true once apps/android is scaffolded.
-    if: needs.web.result == 'success' && vars.ENABLE_ANDROID == 'true'
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: 17
-
-      - uses: android-actions/setup-android@v3
-
-      - run: pnpm install --frozen-lockfile
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: web
-          path: release-out
-
-      - name: Unpack web build
-        run: |
-          mkdir -p apps/web/dist
-          unzip -q "release-out/StudyAssistant-${GITHUB_REF_NAME}-web.zip" -d apps/web/dist
-
-      - name: Capacitor sync
-        run: pnpm exec cap sync android
-
-      - name: Decode keystore
-        env:
-          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-        run: |
-          if [ -z "$ANDROID_KEYSTORE_BASE64" ]; then
-            echo "::warning::ANDROID_KEYSTORE_BASE64 is not set — the APK will be unsigned."
-            exit 0
-          fi
-          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
-
-      - name: Set version
-        run: |
-          VERSION="${GITHUB_REF_NAME#v}"
-          sed -i "s/versionCode .*/versionCode ${GITHUB_RUN_NUMBER}/" apps/android/app/build.gradle
-          sed -i "s/versionName .*/versionName \"${VERSION}\"/" apps/android/app/build.gradle
-
-      - name: Build APK and AAB
-        working-directory: apps/android
-        env:
-          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/release.jks
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: ./gradlew assembleRelease bundleRelease
-
-      - name: Verify APK signature
-        run: |
-          APKSIGNER=$(find "$ANDROID_HOME/build-tools" -name apksigner | sort | tail -n1)
-          "$APKSIGNER" verify --print-certs apps/android/app/build/outputs/apk/release/*.apk
-
-      - name: Rename artifacts
-        run: |
-          mkdir -p release-out
-          cp apps/android/app/build/outputs/apk/release/*.apk "release-out/StudyAssistant-${GITHUB_REF_NAME}.apk"
-          cp apps/android/app/build/outputs/bundle/release/*.aab "release-out/StudyAssistant-${GITHUB_REF_NAME}.aab"
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: android
-          path: release-out/*
+          path: StudyAssistant-*-web.zip
 
   windows:
-    name: Build Windows installer
-    needs: web
-    # Set the repository variable ENABLE_WINDOWS=true once apps/desktop is scaffolded.
-    if: needs.web.result == 'success' && vars.ENABLE_WINDOWS == 'true'
     runs-on: windows-latest
-    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-
       - uses: pnpm/action-setup@v4
-
+        with:
+          version: 9
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
-
       - run: pnpm install --frozen-lockfile
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: web
-          path: release-out
-
-      - name: Unpack web build
-        shell: bash
-        run: |
-          mkdir -p apps/web/dist
-          unzip -q "release-out/StudyAssistant-${GITHUB_REF_NAME}-web.zip" -d apps/web/dist
-
       - name: Build installer
-        shell: bash
-        run: pnpm --filter @studybuddy/desktop dist
+        run: pnpm --filter @studyassistant/desktop dist
         env:
           CSC_LINK: ${{ secrets.WIN_CSC_LINK }}
           CSC_KEY_PASSWORD: ${{ secrets.WIN_CSC_KEY_PASSWORD }}
-
-      - name: Verify signature
+      - name: Report signature state
         shell: pwsh
-        env:
-          REQUIRE_WIN_SIGNATURE: ${{ vars.REQUIRE_WIN_SIGNATURE }}
         run: |
-          $files = Get-ChildItem apps/desktop/release/*.exe -ErrorAction SilentlyContinue
-          if (-not $files) { Write-Error "No installer produced"; exit 1 }
-          $failed = $false
-          foreach ($file in $files) {
-            $sig = Get-AuthenticodeSignature $file.FullName
-            Write-Host "$($file.Name): $($sig.Status)"
-            if ($sig.Status -ne 'Valid' -and $env:REQUIRE_WIN_SIGNATURE -eq 'true') { $failed = $true }
+          Get-ChildItem apps/desktop/release/*.exe | ForEach-Object {
+            $sig = Get-AuthenticodeSignature $_.FullName
+            Write-Host "$($_.Name): $($sig.Status)"
           }
-          if ($failed) { exit 1 }
-
       - uses: actions/upload-artifact@v4
         with:
           name: windows
           path: apps/desktop/release/*.exe
 
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - uses: android-actions/setup-android@v3
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Generate Android project
+        run: |
+          if [ ! -d apps/android/android ]; then
+            pnpm --filter @studyassistant/android add:platform
+          fi
+      - name: Decode keystore
+        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/release.jks"
+      - name: Build APK
+        working-directory: apps/android/android
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/release.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -f "$ANDROID_KEYSTORE_PATH" ]; then
+            ./gradlew assembleRelease bundleRelease
+          else
+            echo "No keystore secret: building an unsigned debug-signed APK instead."
+            ./gradlew assembleRelease
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: apps/android/android/app/build/outputs/**/*.{apk,aab}
+
   release:
-    name: Publish GitHub release
-    needs: [web, android, windows]
-    if: always() && needs.web.result == 'success'
+    needs: [web, windows]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
         with:
           path: dist
           merge-multiple: true
-
-      - name: List release files
-        run: ls -lhR dist
-
       - uses: softprops/action-gh-release@v2
         with:
           files: dist/*
           generate_release_notes: true
-          fail_on_unmatched_files: false

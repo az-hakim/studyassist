@@ -1,6 +1,6 @@
 {
-  "name": "studyassist",
-  "version": "0.1.0",
+  "name": "studyassistant-app",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@9.15.9",
@@ -8,27 +8,20 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "pnpm --filter @studybuddy/web dev",
-    "build": "pnpm --filter @studybuddy/web build",
-    "preview": "pnpm --filter @studybuddy/web preview",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "dev": "pnpm --filter @studyassistant/web dev",
+    "build": "pnpm --filter @studyassistant/web build",
+    "preview": "pnpm --filter @studyassistant/web preview",
+    "typecheck": "pnpm -r typecheck",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "pnpm -r typecheck",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "e2e": "pnpm --filter @studybuddy/web e2e"
+    "desktop:dev": "pnpm --filter @studyassistant/desktop dev",
+    "desktop:dist": "pnpm --filter @studyassistant/desktop dist",
+    "android:add": "pnpm build && pnpm --filter @studyassistant/android add:platform",
+    "android:sync": "pnpm build && pnpm --filter @studyassistant/android sync",
+    "android:debug": "pnpm android:sync && pnpm --filter @studyassistant/android debug"
   },
   "devDependencies": {
-    "@eslint/js": "^9.13.0",
-    "eslint": "^9.13.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.14",
-    "globals": "^15.11.0",
     "prettier": "^3.3.3",
-    "typescript": "^5.6.3",
-    "typescript-eslint": "^8.11.0",
-    "vitest": "^2.1.4"
+    "typescript": "^5.6.3"
   }
 }

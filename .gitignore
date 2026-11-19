@@ -47,3 +47,6 @@ pnpm-debug.log*
 # supabase local state
 supabase/.branches/
 supabase/.temp/
+apps/desktop/release
+apps/android/android
+apps/web/dist
