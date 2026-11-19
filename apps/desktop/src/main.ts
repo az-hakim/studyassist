@@ -1,6 +1,27 @@
 import { app, BrowserWindow, shell } from "electron";
 
-import { APP_URL, APP_ORIGIN } from "./config.js";
+import { APP_ORIGIN, APP_URL } from "./config.js";
+
+/** True only for the wrapped origin — `startsWith` would accept hostile lookalikes. */
+function isAppUrl(rawUrl: string): boolean {
+  try {
+    return new URL(rawUrl).origin === APP_ORIGIN;
+  } catch {
+    return false;
+  }
+}
+
+/** Only http(s)/mailto may reach the operating system's default handler. */
+function openOutside(rawUrl: string): void {
+  try {
+    const { protocol } = new URL(rawUrl);
+    if (protocol === "https:" || protocol === "http:" || protocol === "mailto:") {
+      void shell.openExternal(rawUrl);
+    }
+  } catch {
+    // Malformed URL: nothing to open.
+  }
+}
 
 function createWindow(): BrowserWindow {
   const win = new BrowserWindow({
@@ -19,22 +40,21 @@ function createWindow(): BrowserWindow {
     },
   });
 
-  // In-app popups (e.g. OAuth) stay inside the wrapper; anything else goes to
-  // the user's real browser.
+  // In-app popups (sign-in) stay in the shell; everything else leaves it.
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith(APP_ORIGIN)) return { action: "allow" };
-    void shell.openExternal(url);
+    if (isAppUrl(url)) return { action: "allow" };
+    openOutside(url);
     return { action: "deny" };
   });
 
   win.webContents.on("will-navigate", (event, url) => {
-    if (url.startsWith(APP_ORIGIN)) return;
+    if (isAppUrl(url)) return;
     event.preventDefault();
-    void shell.openExternal(url);
+    openOutside(url);
   });
 
-  win.webContents.on("did-fail-load", (_event, errorCode, errorDescription) => {
-    console.error(`[studyassistant] failed to load ${APP_URL}: ${errorCode} ${errorDescription}`);
+  win.webContents.on("did-fail-load", (_event, code, description, url) => {
+    console.error(`[studyassistant] failed to load ${url} (${code} ${description})`);
   });
 
   void win.loadURL(APP_URL);

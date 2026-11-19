@@ -1,4 +1,4 @@
-appId: com.azhakim.studybuddy
+appId: in.studyassistant.app
 productName: StudyAssistant
 directories:
   output: release

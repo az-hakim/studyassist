@@ -4,7 +4,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 // WebView open studyassistant.in directly. `webDir` only needs the launcher
 // build as an offline fallback for `cap add`/`cap sync`.
 const config: CapacitorConfig = {
-  appId: "com.azhakim.studybuddy",
+  appId: "in.studyassistant.app",
   appName: "StudyAssistant",
   webDir: "../web/dist",
   server: {

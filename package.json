@@ -12,8 +12,6 @@
     "build": "pnpm --filter @studyassistant/web build",
     "preview": "pnpm --filter @studyassistant/web preview",
     "typecheck": "pnpm -r typecheck",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
     "desktop:dev": "pnpm --filter @studyassistant/desktop dev",
     "desktop:dist": "pnpm --filter @studyassistant/desktop dist",
     "android:add": "pnpm build && pnpm --filter @studyassistant/android add:platform",
@@ -21,7 +19,6 @@
     "android:debug": "pnpm android:sync && pnpm --filter @studyassistant/android debug"
   },
   "devDependencies": {
-    "prettier": "^3.3.3",
     "typescript": "^5.6.3"
   }
 }

@@ -24,18 +24,6 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-
-      - name: Typecheck
-        run: pnpm typecheck
-
-      - name: Build launcher
-        run: pnpm build
-
-      - name: Build desktop main process
-        run: pnpm --filter @studyassistant/desktop build
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: web-dist
-          path: apps/web/dist
-          if-no-files-found: error
+      - run: pnpm typecheck
+      - run: pnpm build
+      - run: pnpm --filter @studyassistant/desktop build

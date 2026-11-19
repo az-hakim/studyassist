@@ -78,34 +78,17 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm build
       - name: Generate Android project
-        run: |
-          if [ ! -d apps/android/android ]; then
-            pnpm --filter @studyassistant/android add:platform
-          fi
-      - name: Decode keystore
-        if: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
-        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/release.jks"
+        run: pnpm --filter @studyassistant/android add:platform
       - name: Build APK
         working-directory: apps/android/android
-        env:
-          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/release.jks
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
-          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
-        run: |
-          if [ -f "$ANDROID_KEYSTORE_PATH" ]; then
-            ./gradlew assembleRelease bundleRelease
-          else
-            echo "No keystore secret: building an unsigned debug-signed APK instead."
-            ./gradlew assembleRelease
-          fi
+        run: ./gradlew assembleDebug
       - uses: actions/upload-artifact@v4
         with:
           name: android
-          path: apps/android/android/app/build/outputs/**/*.{apk,aab}
+          path: apps/android/android/app/build/outputs/apk/debug/*.apk
 
   release:
-    needs: [web, windows]
+    needs: [web, windows, android]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4

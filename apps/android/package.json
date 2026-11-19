@@ -3,7 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "add:platform": "cap add android",
+    "add:platform": "test -d android || cap add android",
     "sync": "cap sync android",
     "debug": "cd android && ./gradlew assembleDebug"
   },
