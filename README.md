@@ -31,6 +31,36 @@ pnpm android:sync   # rebuild launcher + sync into the Android project
 pnpm android:debug  # debug APK via Gradle (needs the Android SDK)
 ```
 
+## Releases (CI/CD)
+
+Both pipelines live in `.github/workflows` and need no secrets to run.
+
+- **`ci.yml`** — every push to `main` and every pull request: install, `pnpm typecheck`,
+  `pnpm build`, and the Electron build check.
+- **`release.yml`** — every `v*.*.*` tag: builds each target on GitHub-hosted runners and
+  attaches the results to a GitHub Release.
+
+| Artifact | Job | File in the release |
+|---|---|---|
+| Windows installer | `windows` (`windows-latest`) | `StudyAssistant-Setup-<version>.exe` |
+| Android app | `android` (JDK 17, SDK 34) | `app-debug.apk` |
+| Web launcher | `web` | `StudyAssistant-<tag>-web.zip` |
+
+Cutting a release:
+
+```bash
+git tag v0.3.0        # or v0.3.0-rc.1 for a pre-release
+git push origin v0.3.0
+gh run watch          # follow the Release workflow to completion
+```
+
+Tags containing a hyphen (`v0.3.0-rc.1`) publish as GitHub pre-releases; plain `vX.Y.Z`
+tags become the latest stable release. Delete a bad tag with
+`gh release delete <tag> --yes --cleanup-tag`.
+
+The installer and the APK are unsigned unless the secrets in `docs/SIGNING.md` are set. The
+CI APK is debug-signed, so it installs on a device for testing but is not Play Store ready.
+
 ## Changing the wrapped URL
 
 - Web: `VITE_APP_URL` at build time (defaults to `https://www.studyassistant.in`).
