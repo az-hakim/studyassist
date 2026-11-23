@@ -58,6 +58,9 @@ Tags containing a hyphen (`v0.3.0-rc.1`) publish as GitHub pre-releases; plain `
 tags become the latest stable release. Delete a bad tag with
 `gh release delete <tag> --yes --cleanup-tag`.
 
+The tag is also the Android app version: `v0.3.1` becomes `versionName 0.3.1` and
+`versionCode 301` (see `docs/SIGNING.md`), so every release can install over the previous one.
+
 The installer and the Android APK are signed only when the secrets in `docs/SIGNING.md` are
 set. Without them the workflow falls back to the debug-signed APK, which installs on a device
 for testing but is not Play Store ready.
