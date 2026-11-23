@@ -43,7 +43,7 @@ Both pipelines live in `.github/workflows` and need no secrets to run.
 | Artifact | Job | File in the release |
 |---|---|---|
 | Windows installer | `windows` (`windows-latest`) | `StudyAssistant-Setup-<version>.exe` |
-| Android app | `android` (JDK 17, SDK 34) | `StudyAssistant-<tag>.apk`, or `StudyAssistant-<tag>-debug.apk` without signing secrets |
+| Android app | `android` (JDK 17, SDK 34) | `StudyAssistant-<version>.apk` |
 | Web launcher | `web` | `StudyAssistant-<tag>-web.zip` |
 
 Cutting a release:

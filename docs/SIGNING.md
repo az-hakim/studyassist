@@ -30,8 +30,10 @@ The keystore is decoded to `$RUNNER_TEMP/release.jks`, then
 `apps/android/scripts/configure-release-signing.mjs` writes `apps/android/android/key.properties`
 and appends a `signingConfigs.release` block to `apps/android/android/app/build.gradle`. Both
 files are throwaway — the generated Android project is git-ignored and patched again on every
-run — so no secret is ever committed. Release assets are named `StudyAssistant-<tag>.apk` when
-signed and `StudyAssistant-<tag>-debug.apk` on the fallback path.
+run — so no secret is ever committed. The release asset is always `StudyAssistant-<version>.apk`
+(the tag without its leading `v`, matching `StudyAssistant-Setup-<version>.exe`), whether it was
+release-signed or fell back to the debug build; the `Collect APK` step prints the signer
+certificate so the CI log shows which one it was.
 
 ### Setting it up
 

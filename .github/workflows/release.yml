@@ -113,14 +113,15 @@ jobs:
       - name: Collect APK
         id: apk
         run: |
+          version="${GITHUB_REF_NAME#v}"
           if [ "${{ steps.signing.outputs.enabled }}" = "true" ]; then
             source_apk=apps/android/android/app/build/outputs/apk/release/app-release.apk
-            apk="StudyAssistant-${{ github.ref_name }}.apk"
           else
             source_apk=apps/android/android/app/build/outputs/apk/debug/app-debug.apk
-            apk="StudyAssistant-${{ github.ref_name }}-debug.apk"
           fi
           test -f "$source_apk"
+          # Same naming as the installer: StudyAssistant-Setup-<version>.exe.
+          apk="StudyAssistant-$version.apk"
           cp "$source_apk" "$apk"
           echo "apk=$GITHUB_WORKSPACE/$apk" >> "$GITHUB_OUTPUT"
           apksigner=$(ls "$ANDROID_SDK_ROOT"/build-tools/*/apksigner | head -n 1)
