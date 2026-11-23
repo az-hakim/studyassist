@@ -43,7 +43,7 @@ Both pipelines live in `.github/workflows` and need no secrets to run.
 | Artifact | Job | File in the release |
 |---|---|---|
 | Windows installer | `windows` (`windows-latest`) | `StudyAssistant-Setup-<version>.exe` |
-| Android app | `android` (JDK 17, SDK 34) | `app-debug.apk` |
+| Android app | `android` (JDK 17, SDK 34) | `StudyAssistant-<tag>.apk`, or `StudyAssistant-<tag>-debug.apk` without signing secrets |
 | Web launcher | `web` | `StudyAssistant-<tag>-web.zip` |
 
 Cutting a release:
@@ -58,8 +58,9 @@ Tags containing a hyphen (`v0.3.0-rc.1`) publish as GitHub pre-releases; plain `
 tags become the latest stable release. Delete a bad tag with
 `gh release delete <tag> --yes --cleanup-tag`.
 
-The installer and the APK are unsigned unless the secrets in `docs/SIGNING.md` are set. The
-CI APK is debug-signed, so it installs on a device for testing but is not Play Store ready.
+The installer and the Android APK are signed only when the secrets in `docs/SIGNING.md` are
+set. Without them the workflow falls back to the debug-signed APK, which installs on a device
+for testing but is not Play Store ready.
 
 ## Changing the wrapped URL
 

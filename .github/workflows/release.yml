@@ -76,13 +76,59 @@ jobs:
       - run: pnpm build
       - name: Generate Android project
         run: pnpm --filter @studyassistant/android add:platform
-      - name: Build APK
+      - name: Prepare release signing
+        id: signing
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -z "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "No ANDROID_KEYSTORE_BASE64 secret: falling back to the debug-signed APK." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          for name in ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            if [ -z "${!name}" ]; then
+              echo "::error::$name must be set when ANDROID_KEYSTORE_BASE64 is set."
+              exit 1
+            fi
+          done
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/release.jks"
+          node apps/android/scripts/configure-release-signing.mjs \
+            --keystore "$RUNNER_TEMP/release.jks" \
+            --store-password "$ANDROID_KEYSTORE_PASSWORD" \
+            --key-alias "$ANDROID_KEY_ALIAS" \
+            --key-password "$ANDROID_KEY_PASSWORD"
+          echo "enabled=true" >> "$GITHUB_OUTPUT"
+      - name: Build release APK
+        if: steps.signing.outputs.enabled == 'true'
+        working-directory: apps/android/android
+        run: ./gradlew assembleRelease
+      - name: Build debug APK
+        if: steps.signing.outputs.enabled != 'true'
         working-directory: apps/android/android
         run: ./gradlew assembleDebug
+      - name: Collect APK
+        id: apk
+        run: |
+          if [ "${{ steps.signing.outputs.enabled }}" = "true" ]; then
+            source_apk=apps/android/android/app/build/outputs/apk/release/app-release.apk
+            apk="StudyAssistant-${{ github.ref_name }}.apk"
+          else
+            source_apk=apps/android/android/app/build/outputs/apk/debug/app-debug.apk
+            apk="StudyAssistant-${{ github.ref_name }}-debug.apk"
+          fi
+          test -f "$source_apk"
+          cp "$source_apk" "$apk"
+          echo "apk=$GITHUB_WORKSPACE/$apk" >> "$GITHUB_OUTPUT"
+          apksigner=$(ls "$ANDROID_SDK_ROOT"/build-tools/*/apksigner | head -n 1)
+          "$apksigner" verify --print-certs "$apk"
       - uses: actions/upload-artifact@v7
         with:
           name: android
-          path: apps/android/android/app/build/outputs/apk/debug/*.apk
+          path: ${{ steps.apk.outputs.apk }}
 
   release:
     needs: [web, windows, android]
