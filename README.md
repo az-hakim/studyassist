@@ -58,8 +58,12 @@ Tags containing a hyphen (`v0.3.0-rc.1`) publish as GitHub pre-releases; plain `
 tags become the latest stable release. Delete a bad tag with
 `gh release delete <tag> --yes --cleanup-tag`.
 
-The tag is also the Android app version: `v0.3.1` becomes `versionName 0.3.1` and
-`versionCode 301` (see `docs/SIGNING.md`), so every release can install over the previous one.
+The tag is also the artifact version. The Windows job stamps `package.json` and
+`apps/desktop/package.json` from the tag before building (and fails if the installer is not
+named after it), and the Android job maps `v0.3.1` to `versionName 0.3.1` /
+`versionCode 301` (see `docs/SIGNING.md`), so a release never reuses an older name and every
+APK can install over the previous one. Committed manifest versions can lag the tag; CI fixes
+them up per run.
 
 The installer and the Android APK are signed only when the secrets in `docs/SIGNING.md` are
 set. Without them the workflow falls back to the debug-signed APK, which installs on a device

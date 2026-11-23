@@ -38,6 +38,11 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # electron-builder names the installer after package.json, so stamp the tag
+      # first; otherwise a tag that misses the manifest reuses the old name.
+      - name: Stamp version from tag
+        shell: bash
+        run: node scripts/stamp-version.mjs "$GITHUB_REF_NAME"
       - name: Build installer
         run: pnpm --filter @studyassistant/desktop dist
         env:
@@ -50,6 +55,12 @@ jobs:
             $sig = Get-AuthenticodeSignature $_.FullName
             Write-Host "$($_.Name): $($sig.Status)"
           }
+      - name: Check installer name matches tag
+        shell: bash
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          ls apps/desktop/release/*.exe
+          test -f "apps/desktop/release/StudyAssistant-Setup-$version.exe"
       - uses: actions/upload-artifact@v7
         with:
           name: windows
